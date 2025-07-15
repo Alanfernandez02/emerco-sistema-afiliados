@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Buscar Afiliado - Clínica EMERCO</title>
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="assets/shield.svg" alt="Clínica EMERCO" width="28" height="28">
+      <span>Clínica EMERCO</span>
+    </div>
+    <nav>
+      <ul>
+        <li>
+          <i class="fa-solid fa-table-cells-large"></i>
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li class="active">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <a href="buscar.html">Búsqueda</a>
+        </li>
+        <li>
+          <i class="fa-solid fa-user-gear"></i>
+          <a href="gestionar.html">Gestión</a>
+        </li>
+        <li>
+          <i class="fa-regular fa-file-lines"></i>
+          <a href="estados.html">Estados de Cuenta</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="status">
+      <i class="fa-solid fa-wave-square"></i>
+      <span>Sistema Activo</span>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>Buscar Afiliado</h2>
+      <form id="buscarForm" class="form-inline">
+        <input
+          type="text"
+          id="criterio"
+          placeholder="Ingrese DNI, CUIT o Nº Grupo Familiar"
+          required
+        >
+        <button type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i> Buscar
+        </button>
+      </form>
+      <div id="resultado" class="resultado-lista"></div>
+    </section>
+  </main>
+
+  <script src="buscar.js"></script>
+</body>
+</html>

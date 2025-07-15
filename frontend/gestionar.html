@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Afiliados – EMERCO</title>
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <img src="assets/shield.svg" alt="Clínica EMERCO" width="28" height="28">
+      <span>Clínica EMERCO</span>
+    </div>
+    <nav aria-label="Menú principal">
+      <ul>
+        <li><a href="index.html"><i class="fa-solid fa-table-cells-large"></i> Dashboard</a></li>
+        <li><a href="buscar.html"><i class="fa-solid fa-magnifying-glass"></i> Búsqueda</a></li>
+        <li class="active"><a href="gestionar.html"><i class="fa-solid fa-user-gear"></i> Gestión</a></li>
+        <li><a href="estados.html"><i class="fa-regular fa-file-lines"></i> Estados de Cuenta</a></li>
+      </ul>
+    </nav>
+    <div class="status" aria-live="polite">
+      <i class="fa-solid fa-wave-square"></i>
+      <span>Sistema Activo</span>
+    </div>
+  </header>
+
+  <main class="gestion-container">
+    <section class="gestion-header">
+      <h1>Gestión de Afiliados</h1>
+      <div class="header-controls">
+        <input
+          type="text"
+          id="filterInput"
+          placeholder="Filtrar por DNI, nombre o plan..."
+          aria-label="Filtrar afiliados"
+        >
+        <button id="btnNew" class="btn-primary">
+          <i class="fa-solid fa-plus"></i> Nuevo Afiliado
+        </button>
+      </div>
+    </section>
+
+    <section class="table-section" aria-live="polite">
+      <table id="tablaAfiliados">
+        <thead>
+          <tr>
+            <th>ID</th><th>DNI</th><th>Nombre</th><th>Apellido</th>
+            <th>Plan</th><th>Estado</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- Spinner de carga -->
+  <div id="spinner" class="spinner hidden" role="status" aria-hidden="true">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Contenedor de toasts -->
+  <div id="toast-container" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- Modal Crear/Editar -->
+  <div
+    id="modal"
+    class="modal hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+  >
+    <div class="modal-content">
+      <header class="modal-header">
+        <h2 id="modal-title">Nuevo Afiliado</h2>
+        <button id="modal-close" class="close-btn" aria-label="Cerrar">&times;</button>
+      </header>
+      <form id="modal-form" class="modal-form">
+        <input type="hidden" id="afiliado-id">
+        <div class="form-grid">
+          <!-- todos los campos -->
+          <label for="dni">DNI
+            <input type="number" id="dni" name="dni" required>
+          </label>
+          <label for="cuit">CUIT
+            <input type="text" id="cuit" name="cuit" required>
+          </label>
+          <label for="nombre">Nombre
+            <input type="text" id="nombre" name="nombre" required>
+          </label>
+          <label for="apellido">Apellido
+            <input type="text" id="apellido" name="apellido" required>
+          </label>
+          <label for="parentesco">Parentesco
+            <input type="text" id="parentesco" name="parentesco">
+          </label>
+          <label for="fecha_nacimiento">Fecha Nac.
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento">
+          </label>
+          <label for="edad">Edad
+            <input type="number" id="edad" name="edad">
+          </label>
+          <label for="nacionalidad">Nacionalidad
+            <input type="text" id="nacionalidad" name="nacionalidad">
+          </label>
+          <label for="email">Email
+            <input type="email" id="email" name="email">
+          </label>
+          <label for="grupo_familiar">Grupo Familiar
+            <input type="text" id="grupo_familiar" name="grupo_familiar">
+          </label>
+          <label for="calle">Calle
+            <input type="text" id="calle" name="calle">
+          </label>
+          <label for="numero">Número
+            <input type="text" id="numero" name="numero">
+          </label>
+          <label for="codigo_postal">Cód. Postal
+            <input type="text" id="codigo_postal" name="codigo_postal">
+          </label>
+          <label for="barrio">Barrio
+            <input type="text" id="barrio" name="barrio">
+          </label>
+          <label for="localidad">Localidad
+            <input type="text" id="localidad" name="localidad">
+          </label>
+          <label for="telefono">Teléfono
+            <input type="text" id="telefono" name="telefono">
+          </label>
+          <label for="plann">Plan
+            <input type="text" id="plann" name="plann" required>
+          </label>
+          <label for="estado">Estado
+            <input type="text" id="estado" name="estado" required>
+          </label>
+          <label for="fecha_alta">Fecha Alta
+            <input type="date" id="fecha_alta" name="fecha_alta" required>
+          </label>
+        </div>
+        <footer class="modal-footer">
+          <button type="button" id="cancel-btn" class="btn-secondary">Cancelar</button>
+          <button type="submit" class="btn-primary">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar
+          </button>
+        </footer>
+      </form>
+    </div>
+  </div>
+
+  <script src="gestionar.js"></script>
+</body>
+</html>

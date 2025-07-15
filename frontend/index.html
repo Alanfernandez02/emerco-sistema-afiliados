@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Clínica EMERCO - Dashboard</title>
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="assets/shield.svg" alt="Clínica EMERCO" width="28" height="28">
+      <span>Clínica EMERCO</span>
+    </div>
+    <nav>
+      <ul>
+        <li class="active">
+          <i class="fa-solid fa-table-cells-large"></i>
+          <a href="index.html">Dashboard</a>
+        </li>
+        <li>
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <a href="buscar.html">Búsqueda</a>
+        </li>
+        <li>
+          <i class="fa-solid fa-user-gear"></i>
+          <a href="gestionar.html">Gestión</a>
+        </li>
+        <li>
+          <i class="fa-regular fa-file-lines"></i>
+          <a href="estados.html">Estados de Cuenta</a>
+        </li>
+      </ul>
+    </nav>
+    <div class="status">
+      <i class="fa-solid fa-wave-square"></i>
+      <span>Sistema Activo</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Estadísticas -->
+    <section class="dashboard-cards">
+      <div class="card">
+        <div class="card-header">
+          <span>Total Afiliados</span>
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <div class="card-body">
+          <span id="totalAfiliados">0</span>
+          <small>↗ +0 este mes</small>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span>Con Cobertura</span>
+          <i class="fa-solid fa-user-check"></i>
+        </div>
+        <div class="card-body">
+          <span id="conCobertura">0</span>
+          <small><span id="pctCobertura">0%</span> del total</small>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span>Sin Cobertura</span>
+          <i class="fa-solid fa-user-xmark"></i>
+        </div>
+        <div class="card-body">
+          <span id="sinCobertura">0</span>
+          <small><span id="pctSinCobertura">0%</span> del total</small>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span>Suspendidos</span>
+          <i class="fa-solid fa-user-minus"></i>
+        </div>
+        <div class="card-body">
+          <span id="suspendidos">0</span>
+          <small><span id="pctSuspendidos">0%</span> del total</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acciones Rápidas & Afiliados Recientes -->
+    <section class="grid-2cols">
+      <!-- Acciones Rápidas -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fa-solid fa-wave-square"></i>
+          <span>Acciones Rápidas</span>
+        </div>
+        <div class="card-body actions-list">
+          <button onclick="location.href='buscar.html'">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <div>
+              <strong>Buscar Afiliado</strong><br>
+              <small>Buscar por DNI, nombre o grupo</small>
+            </div>
+          </button>
+          <button onclick="location.href='gestionar.html'">
+            <i class="fa-solid fa-user-gear"></i>
+            <div>
+              <strong>Gestionar Afiliados</strong><br>
+              <small>Ver, editar y administrar afiliados</small>
+            </div>
+          </button>
+          <button onclick="location.href='estados.html'">
+            <i class="fa-regular fa-file-lines"></i>
+            <div>
+              <strong>Estados de Cuenta</strong><br>
+              <small>Revisar pagos y comprobantes</small>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Afiliados Recientes -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Afiliados Recientes</span>
+        </div>
+        <div class="card-body">
+          <ul id="recientesList">
+            <li>No hay afiliados registrados</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
