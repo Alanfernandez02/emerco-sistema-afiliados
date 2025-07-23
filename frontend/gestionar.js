@@ -1,6 +1,7 @@
 // frontend/gestionar.js
 document.addEventListener('DOMContentLoaded', () => {
   const API = `${window.location.origin}/api/afiliados`;
+  const PLAN_API = `${window.location.origin}/api/planes`;
   const tablaBody  = document.querySelector('#tablaAfiliados tbody');
   const filterInput= document.getElementById('filterInput');
   const spinner    = document.getElementById('spinner');
@@ -12,13 +13,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnClose   = document.getElementById('modal-close');
   const btnCancel  = document.getElementById('cancel-btn');
   const hiddenId   = document.getElementById('afiliado-id');
+  const planSelect = document.getElementById('plan');
+  const planPrecio = document.getElementById('planPrecio');
+  const fechaAltaPlan = document.getElementById('fecha_alta_plan');
 
+  // Lista de campos
   const campos = [
     'dni','cuit','nombre','apellido','parentesco',
     'fecha_nacimiento','edad','nacionalidad','email',
     'grupo_familiar','calle','numero','codigo_postal',
-    'barrio','localidad','telefono','plann','estado','fecha_alta'
+    'barrio','localidad','telefono',
+    'plan_id','fecha_alta_plan','estado','fecha_alta'
   ];
+
+  // Planes (cache)
+  let planes = [];
 
   // Spinner
   function showSpinner() { spinner.classList.remove('hidden'); spinner.setAttribute('aria-hidden','false'); }
@@ -36,19 +45,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2500);
   }
 
+  // Llenar el combo de planes
+  async function loadPlanes() {
+    try {
+      const res = await fetch(PLAN_API);
+      if (!res.ok) throw new Error('No se pudieron cargar los planes');
+      planes = await res.json();
+      planSelect.innerHTML = `<option value="">Seleccione un plan</option>`;
+      planes.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = `${p.nombre} ($${Number(p.precio).toLocaleString()})`;
+        opt.dataset.precio = p.precio;
+        planSelect.appendChild(opt);
+      });
+    } catch(e) {
+      planSelect.innerHTML = `<option value="">Sin planes</option>`;
+      showToast(e.message, 'danger');
+    }
+  }
+
+  // Mostrar el precio debajo del plan
+  planSelect.addEventListener('change', function () {
+    const selected = this.options[this.selectedIndex];
+    const precio = selected.dataset.precio || '';
+    planPrecio.textContent = precio ? `Precio: $${Number(precio).toLocaleString()}` : '';
+  });
+
   // Modal
   function openModal(isNew=true, data={}) {
     if (isNew) {
       document.getElementById('modal-title').textContent = 'Nuevo Afiliado';
       form.reset();
       hiddenId.value = '';
+      fechaAltaPlan.valueAsDate = new Date();
     } else {
       document.getElementById('modal-title').textContent = `Editar Afiliado #${data.id}`;
-      campos.forEach(f => form[f].value = data[f] ?? '');
+      campos.forEach(f => {
+        if (form[f]) form[f].value = data[f] ?? '';
+      });
       hiddenId.value = data.id;
+      if (form['plan_id']) {
+        planSelect.value = data.plan_id || '';
+        planSelect.dispatchEvent(new Event('change'));
+      }
     }
     modal.classList.remove('hidden');
-    form.querySelector('input, select, textarea').focus();
+    setTimeout(() => { form.querySelector('input, select, textarea').focus(); }, 150);
   }
   function closeModal() {
     modal.classList.add('hidden');
@@ -68,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <td>${a.dni}</td>
           <td>${a.nombre}</td>
           <td>${a.apellido}</td>
-          <td>${a.plann}</td>
+          <td>${a.plan_nombre || ''}</td>
           <td>${a.estado}</td>
           <td class="actions">
             <button class="btn-icon edit"   data-id="${a.id}"><i class="fa-solid fa-pen-to-square"></i></button>
@@ -120,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const id = hiddenId.value;
     const payload = {};
-    campos.forEach(f => payload[f] = form[f].value);
+    campos.forEach(f => payload[f] = form[f]?.value);
 
     showSpinner();
     const r = await fetch(id ? `${API}/${id}` : API, {
@@ -145,5 +188,5 @@ document.addEventListener('DOMContentLoaded', () => {
   btnCancel.addEventListener('click', closeModal);
 
   // Inicial
-  loadTable();
+  Promise.all([loadPlanes(), loadTable()]);
 });

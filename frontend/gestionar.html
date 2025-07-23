@@ -133,9 +133,15 @@
           <label for="telefono">Teléfono
             <input type="text" id="telefono" name="telefono">
           </label>
-          <label for="plann">Plan
-            <input type="text" id="plann" name="plann" required>
-          </label>
+          <label for="plan">Plan</label>
+          <select id="plan" name="plan_id" required>
+            <option value="">Seleccione un plan</option>
+          </select>
+          <div id="planPrecio" style="font-size:0.98em; color:#155;" aria-live="polite"></div>
+
+          <label for="fecha_alta_plan">Fecha de alta de plan</label>
+          <input type="date" id="fecha_alta_plan" name="fecha_alta_plan" required>
+
           <label for="estado">Estado
             <input type="text" id="estado" name="estado" required>
           </label>
@@ -153,6 +159,34 @@
     </div>
   </div>
 
+  <script>
+    // Traer los planes al cargar el modal (y mostrar el precio)
+    document.addEventListener('DOMContentLoaded', function () {
+      const planSelect = document.getElementById('plan');
+      const planPrecio = document.getElementById('planPrecio');
+      // Trae los planes desde el backend
+      fetch('http://localhost:3000/api/planes')
+        .then(res => res.json())
+        .then(planes => {
+          planes.forEach(plan => {
+            const opt = document.createElement('option');
+            opt.value = plan.id;
+            opt.textContent = `${plan.nombre} ($${Number(plan.precio).toLocaleString()})`;
+            opt.dataset.precio = plan.precio;
+            planSelect.appendChild(opt);
+          });
+        });
+
+      planSelect.addEventListener('change', function () {
+        const selected = this.options[this.selectedIndex];
+        const precio = selected.dataset.precio || '';
+        planPrecio.textContent = precio ? `Precio: $${Number(precio).toLocaleString()}` : '';
+      });
+
+      // Por defecto, la fecha de alta del plan es hoy
+      document.getElementById('fecha_alta_plan').valueAsDate = new Date();
+    });
+  </script>
   <script src="gestionar.js"></script>
 </body>
 </html>

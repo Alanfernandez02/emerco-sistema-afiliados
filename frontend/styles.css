@@ -26,6 +26,9 @@ body {
   line-height: 1.6;
 }
 
+/* ------------------ */
+/* HEADER & NAV */
+/* ------------------ */
 header {
   background: var(--color-card);
   padding: var(--spacing);
@@ -153,7 +156,6 @@ main {
   gap: var(--spacing);
 }
 
-/* Para las tarjetas dentro de grid-2cols */
 .grid-2cols .card {
   margin-bottom: 0;
 }
@@ -252,20 +254,6 @@ button:hover {
   background: #2563eb;
 }
 
-@media (max-width: 600px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacing);
-  }
-  .dashboard-cards {
-    grid-template-columns: 1fr;
-  }
-  .grid-2cols {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* -------------------------------- */
 /* MODAL DE GESTIÓN (AJUSTADO)      */
 /* -------------------------------- */
@@ -281,14 +269,21 @@ button:hover {
 .modal:not(.hidden) {
   display: flex;
 }
+
+/* MODIFICADO: máximo alto y scroll interno para contenido largo */
 .modal-content {
   background: var(--color-card);
   border-radius: var(--radius);
   width: 90%;
   max-width: 600px;
+  max-height: 95vh;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
+
 .modal-header {
   display: flex;
   justify-content: space-between;
@@ -296,6 +291,7 @@ button:hover {
   padding: var(--spacing);
   background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
 }
 .close-btn {
   background: none;
@@ -303,6 +299,8 @@ button:hover {
   font-size: 1.5rem;
   cursor: pointer;
 }
+
+/* Formulario en grid, adaptativo */
 .modal-form .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -312,14 +310,27 @@ button:hover {
 .modal-form label {
   display: flex;
   flex-direction: column;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
+  margin-bottom: 0.1rem;
 }
-.modal-form input {
+.modal-form input,
+.modal-form select {
   margin-top: 0.3rem;
-  padding: 0.5rem;
+  padding: 0.48rem;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
 }
+.modal-form input[type="date"]::-webkit-input-placeholder { color: #aaa; }
+.modal-form input[type="date"]:invalid { color: #aaa; }
+.modal-form input[type="date"] { font-size: 1rem; }
+#planPrecio {
+  font-size: 0.98rem;
+  color: var(--color-primary);
+  margin-top: 0.2rem;
+  margin-bottom: 0.6rem;
+}
+
+/* Pie del modal siempre visible */
 .modal-footer {
   display: flex;
   justify-content: flex-end;
@@ -327,6 +338,21 @@ button:hover {
   padding: var(--spacing);
   background: var(--color-bg);
   border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+/* En pantallas angostas: grid 1 columna */
+@media (max-width: 700px) {
+  .modal-content {
+    max-width: 99vw;
+    width: 99vw;
+    padding: 0;
+  }
+  .modal-form .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+    padding: var(--spacing) 0.5rem;
+  }
 }
 
 /* Tabla de gestión */
@@ -427,3 +453,46 @@ tr:hover {
 .toast-danger  { border-left: 4px solid var(--color-danger); }
 
 .error { color: var(--color-danger); text-align: center; }
+
+.periodos-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+.btn-periodo {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.btn-periodo:hover, .btn-periodo.selected {
+  background: #2563eb;
+}
+.btn-secondary {
+  background: #e5e7eb;
+  color: #222;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 15px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.btn-secondary {
+  background: #e5e7eb;
+  color: #222;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 15px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+input#filtroMovimientos {
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 210px;
+}
+

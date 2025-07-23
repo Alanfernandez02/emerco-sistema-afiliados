@@ -2,38 +2,25 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Estados de Cuenta - EMERCO</title>
-  <!-- Font Awesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
-  <link rel="stylesheet" href="styles.css">
+  <title>Estados de Cuenta - Clínica EMERCO</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
 <body>
   <header>
     <div class="logo">
-      <img src="assets/shield.svg" alt="Clínica EMERCO" width="28" height="28">
-      <span>Clínica EMERCO</span>
+      <img src="logo.png" alt="Logo" style="height:2rem;" />
+      <div>
+        <strong>Clínica EMERCO</strong><br>
+        <small>Sistema de Gestión de Afiliados</small>
+      </div>
     </div>
     <nav>
       <ul>
-        <li>
-          <i class="fa-solid fa-table-cells-large"></i>
-          <a href="index.html">Dashboard</a>
-        </li>
-        <li>
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <a href="buscar.html">Búsqueda</a>
-        </li>
-        <li>
-          <i class="fa-solid fa-user-gear"></i>
-          <a href="gestionar.html">Gestión</a>
-        </li>
-        <li class="active">
-          <i class="fa-regular fa-file-lines"></i>
-          <a href="estados.html">Estados de Cuenta</a>
-        </li>
+        <li><a href="index.html">Dashboard</a></li>
+        <li><a href="buscar.html">Búsqueda</a></li>
+        <li><a href="gestionar.html">Gestión</a></li>
+        <li class="active"><a href="estados.html">Estados de Cuenta</a></li>
       </ul>
     </nav>
     <div class="status">
@@ -43,91 +30,44 @@
   </header>
 
   <main>
-    <section class="dashboard-cards" id="resumen-cards">
-      <div class="card">
-        <div class="card-header">
-          <span>Total Facturado</span>
-          <i class="fa-solid fa-receipt"></i>
-        </div>
-        <div class="card-body">
-          <span id="totalFacturado">$0.00</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <span>Total Pagado</span>
-          <i class="fa-solid fa-hand-holding-dollar"></i>
-        </div>
-        <div class="card-body">
-          <span id="totalPagado">$0.00</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <span>Total Pendiente</span>
-          <i class="fa-solid fa-clock"></i>
-        </div>
-        <div class="card-body">
-          <span id="totalPendiente">$0.00</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <span>Pagadas</span>
-          <i class="fa-solid fa-check-circle"></i>
-        </div>
-        <div class="card-body">
-          <span id="pagadas">0</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <span>Pendientes</span>
-          <i class="fa-solid fa-hourglass-half"></i>
-        </div>
-        <div class="card-body">
-          <span id="pendientes">0</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <span>Vencidas</span>
-          <i class="fa-solid fa-exclamation-circle"></i>
-        </div>
-        <div class="card-body">
-          <span id="vencidas">0</span>
-        </div>
-      </div>
-    </section>
+    <h1>Estados de Cuenta</h1>
+    <p>Consulta y gestiona los estados de cuenta y comprobantes de pago</p>
 
-    <section id="filtros">
+    <!-- Tarjetas resumen -->
+    <div class="dashboard-cards" id="estadisticasEstados">
+      <!-- ... igual que antes ... -->
+    </div>
+
+    <!-- Filtros -->
+    <section class="card" style="margin-top: 2rem;">
       <h2>Consultar Estado de Cuenta</h2>
-      <div class="filter-row">
-        <select id="afiliadoSelect">
-          <option value="">Seleccionar afiliado</option>
-        </select>
-        <input type="month" id="periodoInput">
-        <button id="btnConsultar">
-          <i class="fa-solid fa-search-dollar"></i> Consultar
-        </button>
+      <form id="estadoForm" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div>
+          <label for="afiliadoSelect">Afiliado</label>
+          <select id="afiliadoSelect">
+            <option value="">Seleccionar afiliado</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-search"></i> Consultar</button>
+      </form>
+      <!-- Filtro por texto y botón PDF -->
+      <div style="margin-top:1rem; display:flex; justify-content: space-between; align-items: center;">
+        <input id="filtroTabla" type="text" placeholder="Filtrar por período, estado..." style="padding: 0.4rem 1rem; border-radius: 4px; border: 1px solid #ccc;"/>
+        <button id="descargarPdf" class="btn-primary" style="margin-left: 1rem;"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</button>
       </div>
     </section>
 
-    <section id="comprobantes-list">
-      <h2>Listado de Comprobantes</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Número</th><th>Emisión</th><th>Venc.</th><th>Total</th><th>Saldo</th>
-          </tr>
-        </thead>
-        <tbody id="comprobantesBody">
-          <tr><td colspan="5" style="text-align:center;">Selecciona un afiliado y período</td></tr>
-        </tbody>
-      </table>
+    <!-- Resultados (Estado de Cuenta Detallado: TABLA GRANDE) -->
+    <section class="card" style="margin-top: 1.5rem;">
+      <h2>Detalle del Estado de Cuenta</h2>
+      <div id="estadoDetalle">
+        <p>Selecciona un afiliado para ver todos sus períodos y movimientos</p>
+      </div>
     </section>
   </main>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
   <script src="estados.js"></script>
 </body>
 </html>

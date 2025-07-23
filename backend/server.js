@@ -8,8 +8,14 @@ require('dotenv').config();
 const { poolPromise } = require('./db');
 const afiliadosRouter = require('./routes/afiliados');
 
+const estadosRoutes = require('./routes/estados');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const planesRouter = require('./routes/planes');
+app.use('/api/planes', planesRouter);
+
 
 // Middlewares
 app.use(cors());
@@ -17,6 +23,8 @@ app.use(express.json());
 
 // Servir archivos estáticos desde /frontend
 app.use(express.static(path.join(__dirname, '../frontend')));
+
+app.use('/api/estado-cuenta', estadosRoutes);
 
 // Verificar conexión a la base de datos al iniciar
 poolPromise
